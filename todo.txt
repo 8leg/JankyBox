@@ -1,0 +1,35 @@
+[x] Socket Creation:
+
+    [x] Create a server socket using socket(), specifying AF_INET for IPv4 and SOCK_STREAM for TCP.
+    [x] Bind the socket to a specific IP address and port using bind(). INADDR_ANY allows listening on all network interfaces.
+    Listen for incoming connections using listen(). 
+
+[x] Handling Client Connections:
+
+    [x] Use accept() in a loop to accept new client connections. This creates a new socket for each client.
+    [x] For concurrent handling, consider using threads or processes for each client connection. 
+
+[] Correct decoding data of request    
+
+HTTP Request Parsing:
+
+    Read data from the client's socket.
+    Parse the incoming HTTP request to extract method (GET, POST, etc.), requested path, headers, and body. 
+
+File Handling and Response Generation:
+
+    Based on the requested path, locate and open the corresponding file on the server.
+    Construct an HTTP response, including status line (e.g., "HTTP/1.1 200 OK"), headers (e.g., Content-Type), and the file content as the body. 
+
+Sending the Response:
+
+    Send the constructed HTTP response back to the client using send(). 
+
+Error Handling:
+
+    Implement robust error handling for network operations, file access, and HTTP parsing. 
+
+Closing Connections:
+
+    Close client sockets after serving the request.
+    Close the server socket upon shutdown.
