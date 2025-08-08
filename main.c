@@ -8,6 +8,16 @@
 
 #define PORT 3000 // just setting a constant value
 
+int Socket(int domain, int type, int protocol) {
+  // socket wrapper functiion
+  int res = socket(domain, type, protocol);
+  if (res == -1) {
+    perror("socket failed");
+    exit(EXIT_FAILURE);
+  }
+  return res;
+}
+
 int main(int argc, char const *argv[]) {
   int server_fd, new_socket; // server file descriptor and fuckass new socket
   ssize_t valread;           // some POS
@@ -64,7 +74,7 @@ int main(int argc, char const *argv[]) {
 
   // Forcefully attaching socket to the port 8080
   if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
-    // this shit binds "unnamed" socket to port number. That middle part if
+    // this shit binds "unnamed" socket to port number. That middle part is
     // where we convert our structure "address" of type sockaddr_in
     // into another type - sockaddr
     perror("bind failed");
