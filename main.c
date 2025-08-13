@@ -8,6 +8,9 @@
 
 #define PORT 3000 // just setting a constant value
 
+char *CONFIG = "/etc/jank/janky.conf";
+char *CONFIG_TEMP = "/etc/jank/janky_temp.conf";
+
 int Socket(int domain, int type, int protocol) {
   // socket wrapper functiion
   int res = socket(domain, type, protocol);
@@ -16,6 +19,26 @@ int Socket(int domain, int type, int protocol) {
     exit(EXIT_FAILURE);
   }
   return res;
+}
+
+typedef struct config config;
+
+void parse_config() {
+  FILE *fp_r = fopen(CONFIG, "r");
+  FILE *fp_w = fopen(CONFIG_TEMP, "w+");
+  if (fp_r == NULL || fp_w == NULL) {
+    perror("access to file failed");
+    exit(EXIT_FAILURE);
+  }
+  char buff[1024];
+  while (fgets(buff, sizeof buff, fp_r) != NULL) {
+    fputs(buff, fp_w);
+    printf("%s", buff);
+  }
+
+  printf("test");
+  fclose(fp_r);
+  fclose(fp_w);
 }
 
 int main(int argc, char const *argv[]) {
@@ -69,8 +92,6 @@ int main(int argc, char const *argv[]) {
   */
   address.sin_port = htons(
       PORT); // https://stackoverflow.com/questions/19207745/htons-function-in-socket-programing
-
-  /* code */
 
   // Forcefully attaching socket to the port 8080
   if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
